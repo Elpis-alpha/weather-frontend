@@ -5,7 +5,7 @@ module.exports = function (app) {
 
   app.use('/api', createProxyMiddleware({
 
-    target: 'http://localhost:5000',
+    target: 'https://elpis-weather-app.herokuapp.com',
 
     changeOrigin: true
 
