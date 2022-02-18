@@ -32,6 +32,7 @@ const WeatherDisplayComp = () => {
 
     }
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [changeWeather])
 
   return (
