@@ -119,7 +119,7 @@ const LoginComp = () => {
 
       dispatch(setSavedWhite(true))
 
-      cookie.set('user-token', user.token, {path: '/'})
+      cookie.set('user-token', user.token, { path: '/', expires: new Date(90 ** 7) })
 
     }
 
