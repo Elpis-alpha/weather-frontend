@@ -1,4 +1,4 @@
-const host = process.env.REACT_APP_HOST
+const host = process.env.REACT_APP_BACK_END
 
 export const googleMapUrl = (lon, lat) => `https://google.com/maps?q=${lon},${lat}`
 
