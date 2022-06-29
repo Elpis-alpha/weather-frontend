@@ -6,9 +6,15 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { useEffect } from 'react'
 
-import { Circles } from 'react-loader-spinner';
+import { TailSpin as Circles } from 'react-loader-spinner';
 
-import { fetchWeaObject, setWeaLoad } from '../../store/actions/weatherAction'
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { fetchWeaObject, setWeaLoad, setWeaShowMe } from '../../store/actions/weatherAction'
+
+import { setAcrShowMe } from '../../store/actions/autoCompleteAction'
 
 import getImageByCode from '../images/codes/getImageByCode';
 
@@ -17,9 +23,9 @@ import { datetoTimeStr } from '../../customControllers/TimeCtrl';
 const WeatherDisplayComp = () => {
 
   const dispatch = useDispatch()
-  
+
   const { text, showMe, changeWeather } = useSelector(state => state.autoComplete)
-  
+
   const { data, loading, showMe: showWeather } = useSelector(state => state.weather)
 
   useEffect(() => {
@@ -35,9 +41,21 @@ const WeatherDisplayComp = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [changeWeather])
 
+  const headRemoveDisplay = e => {
+
+    if (e.target.classList.contains('w-d-elx')) {
+
+      dispatch(setAcrShowMe(false))
+
+      dispatch(setWeaShowMe(false))
+
+    }
+
+  }
+
   return (
 
-    <WeatherDisplay>
+    <WeatherDisplay className={showWeather ? "show w-d-elx" : "w-d-elx"} onClick={headRemoveDisplay}>
 
       {showWeather && <div className="weather-data">
 
@@ -168,20 +186,27 @@ const WeatherDisplayComp = () => {
 
         <div className='image'>
 
+          <div className="overlay"></div>
+
           <img src={`${process.env.PUBLIC_URL}/images/codes/${getImageByCode(data.weatherCode).url}`} alt={data.weatherText} />
 
         </div>
 
-        <p className='caption'>Photographic Representation of {data.weatherText} Weather</p>
+        {/* <p className='caption'>Photographic Representation of {data.weatherText} Weather</p> */}
 
       </div>}
 
       {loading && <div className="weather-loader">
 
-        <Circles height="5rem" width="5rem" color='#7c7c7c' wrapperClass='loader-holder' />
+        <Circles height="3rem" width="3rem" color='#fff' wrapperClass='loader-holder' />
 
       </div>}
 
+      <div className="cancel-x" onClick={() => { dispatch(setAcrShowMe(false)); dispatch(setWeaShowMe(false)) }}>
+
+        <FontAwesomeIcon icon={faTimes} />
+
+      </div>
 
     </WeatherDisplay>
 
@@ -191,19 +216,41 @@ const WeatherDisplayComp = () => {
 
 const WeatherDisplay = styled(motion.div)`
 
+  position: fixed;
+  top: 0; bottom: 0;
+  left: 0; right: 0;
+  z-index: 55;
+  overflow: auto;
   padding: 1rem 4rem;
   padding-top: .5rem;
   display: flex;
   align-items: flex-start;
   justify-content: center;
   flex-direction: column;
-  font-family: 'Poor Richard';
-  
+  font-family: "High Tower";
+  background-color: rgba(0, 0, 0, .4);
+  color: #fff;
+  font-size: 1rem;
+  line-height: 1.8rem;
+  animation: opacity-in .5s 1;
+
   .weather-data{
-    
+
+    width: 80%;
+    max-width: 600px;
+    /* min-height: 30%; */
+    max-height: 80%;
+    z-index: 10;
+    margin: auto;
+    background-color: white;
+    box-shadow: 0 0 15px 0 black;
+    /* border-radius: 2rem; */
+    padding: 1rem 2rem;
+    overflow: auto;
+
     display: flex;
     align-items: center;
-    justify-content: center;
+    /* justify-content: center; */
     flex-direction: column;
     width: 100%;
     
@@ -234,9 +281,9 @@ const WeatherDisplay = styled(motion.div)`
         position: absolute;
         bottom: 0;
         left: 0; right: 0;
-        height: 2px;
+        height: 1px;
         width: 100%;
-        background-color: #00008e;
+        background-color: #fff;
       }
 
       .loc-sub:last-child{
@@ -244,25 +291,45 @@ const WeatherDisplay = styled(motion.div)`
       }
       
       .sub-head{
-        font-size: 1rem;
-        font-weight: bold;
+        font-size: 1.4rem;
+        line-height: 2.5rem;
+        /* font-size: 1rem; */
+        /* font-weight: bold; */
       }
 
       label{
-        font-weight: bold;
+        /* font-weight: bold; */
       }
       padding: 1rem 0;
     }
     
     .image{
-      width: 70%;
+      /* width: 70%; */
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: -1;
 
       img{
         margin: 0 auto;
         display: block;
-        max-width: 100%;
+        width: 100%;
+        height: 100%;
         /* max-height: 50vh; */
+        z-index: 5;
         box-shadow: 0 0 3px 0 black;
+      }
+
+      .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 10;
+        background-color: rgba(0, 0, 0, .7);
       }
     }
 
@@ -279,6 +346,28 @@ const WeatherDisplay = styled(motion.div)`
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  .cancel-x {
+    position: absolute;
+    top: 2rem; right: 2rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    cursor: pointer;
+    color: red;
+    z-index: 40;
+    cursor: pointer;
+    transform: scale(1);
+    transition: transform .5s;
+
+    svg {
+      width: inherit;
+      height: inherit;
+    }
+
+    &:hover {
+      transform: scale(1.5);
+    }
   }
 `
 

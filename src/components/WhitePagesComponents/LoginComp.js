@@ -81,8 +81,6 @@ const LoginComp = () => {
 
     dispatch(setTextWhite("Authenticating Credentials"))
 
-    await new Promise(resolve => setTimeout(() => { resolve() }, 1000))
-
     let user = await fetch(loginUserURL(), {
 
       method: 'POST',

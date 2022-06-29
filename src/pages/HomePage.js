@@ -45,7 +45,9 @@ const HomePage = () => {
 
 const Home = styled(motion.div)`
 
-padding: 0 1rem;
+  padding: 0 1rem;
+  margin: auto;
+  width: 100%;
 
 `
 

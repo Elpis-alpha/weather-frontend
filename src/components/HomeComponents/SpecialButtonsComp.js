@@ -92,18 +92,18 @@ const SpecialButtons = styled(motion.div)`
   button{
     padding: .1rem 1rem;
     background-color: #efefef;
-    box-shadow: 0 0 2px 0 #797979;
+    box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, .2), -2px -2px 5px 0 #fff;
     border: none; outline: none;
     border-radius: 0.5rem;
     cursor: pointer;
-    transition: background-color .5s, box-shadow .5s;
+    transform: scale(1);
+    transition: transform .5s;
   }
   
   button:hover{
-    background-color: #bebfff;
-    box-shadow: 0 0 2px 0 #4c4fff;
+    transform: scale(1.1);
   }
-
+  
   button:disabled{
     opacity: 0.5;
     cursor: not-allowed;
@@ -111,8 +111,7 @@ const SpecialButtons = styled(motion.div)`
 
   button:disabled:hover{
     opacity: 0.5;
-    background-color: #efefef;
-    box-shadow: 0 0 2px 0 #797979;
+    transform: scale(1);
   }
 
 `

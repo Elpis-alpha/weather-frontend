@@ -1,3 +1,4 @@
+
 import { createGlobalStyle } from 'styled-components'
 
 const GlobalStyle = createGlobalStyle`
@@ -199,6 +200,17 @@ input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
     transition: background-color 5000s ease-in-out 0s;
+}
+
+.App {
+  height: 100vh;
+  overflow: auto;
+  display: flex;
+}
+
+@keyframes opacity-in {
+  from{opacity: 0}
+  to{opacity: 1}
 }
 
 /* ------------------------------------------------------------------ */

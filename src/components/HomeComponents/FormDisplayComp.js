@@ -29,7 +29,11 @@ const FormDisplayComp = () => {
 
     dispatch(setAcrText(e.target.value))
 
-    if (e.target.value.trim() === "") return dispatch(setAcrArray([]))
+    if (e.target.value.trim() === "" || text.trim() === "") {
+
+      return dispatch(setAcrShowMe(false));
+
+    }
 
     dispatch(setAcrLoad())
 
@@ -61,7 +65,7 @@ const FormDisplayComp = () => {
 
           {(showAuto && loading) && <Bars color='black' wrapperClass='loader-holder' width="2rem" height="1.6rem" />}
 
-          {(showAuto && !loading) && data.map(item => <AutoCompleteItem country={item.country} region={item.region} name={item.name} key={item.id} id={item.id} />)}
+          {(showAuto && !loading && text.trim() !== "") && data.map(item => <AutoCompleteItem country={item.country} region={item.region} name={item.name} key={item.id} id={item.id} />)}
 
         </div>
 
@@ -99,12 +103,8 @@ const FormDisplay = styled(motion.div)`
         padding: .5rem 1rem;
         border: none; outline: none;
         border-radius: 2rem 0 0  2rem;
-        box-shadow: 0 0 3px 0 black;
+        box-shadow: 0 0 4px 0 rgba(0, 0, 0, .2);
         transition: box-shadow .5s;
-        
-        &:focus{
-          box-shadow: 0 0 3px 0 blue;
-        }
 
       }
 
@@ -115,7 +115,7 @@ const FormDisplay = styled(motion.div)`
         padding: .5rem 1.5rem;
         border: none; 
         border-radius: 0 2rem 2rem 0;
-        box-shadow: 0 0 3px 0 black;
+        box-shadow: 0 0 4px 0 rgba(0, 0, 0, .2);
         cursor: pointer;
         height: 100%;
       }
